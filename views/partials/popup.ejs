@@ -5,13 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Popup</title>
 </head>
+
 <body>
     <div class="popUp" id="popUp">
         <div class="popup-card">
             <button class="closeBtn" onclick="closePopUp(document.getElementById('container'))">X</button>
             <div class="name-container">
                 <h2 id="popup-exercise-name" class="exercise-name"></h2>
-                <button onclick="addToFav()" class="addToFavBtn">⭐️</button>
+                <button onclick="addToFav(getPopupExercise())" id="star" class="addToFavBtn"><i
+                        class="fa-solid fa-star"></i></button>
             </div>
             <h3 id="popup-exercise-type" class="exercise-type"></h3>
             <h3 id="popup-exercise-muscle" class="exercise-muscle"></h3>
@@ -21,6 +23,7 @@
         </div>
     </div>
 </body>
+
 </html>
 <script>
     const closePopUp = (container) => {
@@ -29,20 +32,54 @@
         container.style.filter = 'none';
         menu.style.filter = 'none';
     };
+    async function setStarState(element) {
+        const star = document.getElementById('star');
+        try {
+            const res = await fetch('/exercises/favorite', {
+                method: 'GET',
+                headers: { 'Content-Type': 'application/json' },
+            });
+            const data = await res.json();
+            const favoriteExercises = data.favorites || [];
+            console.log(favoriteExercises);
+            console.log(element);
+
+            const isFavorite = favoriteExercises.some(exercise => exercise.name === element.name);
+            if (isFavorite) {
+                star.style.color = 'gold';
+            }else{
+                star.style.color = 'black';
+            }
+
+        } catch (err) {
+            console.log("Error:", err);
+            result.innerHTML = '<p>Failed to fetch favorite exercises. Please try again later.</p>';
+        }
+    }
     const openPopup = (element) => {
-            const popUp = document.getElementById('popUp');
-            const container = document.getElementById('container');
+        setStarState(element)
+        const popUp = document.getElementById('popUp');
+        const container = document.getElementById('container');
 
-            document.getElementById('popup-exercise-name').textContent = `Exercise Name: ${element.name}`;
-            document.getElementById('popup-exercise-type').textContent = `Type: ${element.type}`;
-            document.getElementById('popup-exercise-muscle').textContent = `Muscle targeted: ${element.muscle}`;
-            document.getElementById('popup-exercise-equipment').textContent = `Equipment: ${element.equipment}`;
-            document.getElementById('popup-exercise-difficulty').textContent = `Difficulty: ${element.difficulty}`;
-            document.getElementById('popup-exercise-instructions').textContent = `Instructions: ${element.instructions}`;
-
-            popUp.style.display = 'block';
-            container.style.filter = 'blur(5px)';
-            menu.style.filter = 'blur(5px)';
+        document.getElementById('popup-exercise-name').textContent = `Exercise Name: ${element.name}`;
+        document.getElementById('popup-exercise-type').textContent = `Type: ${element.type}`;
+        document.getElementById('popup-exercise-muscle').textContent = `Muscle targeted: ${element.muscle}`;
+        document.getElementById('popup-exercise-equipment').textContent = `Equipment: ${element.equipment}`;
+        document.getElementById('popup-exercise-difficulty').textContent = `Difficulty: ${element.difficulty}`;
+        document.getElementById('popup-exercise-instructions').textContent = `Instructions: ${element.instructions}`;
+        popUp.style.display = 'block';
+        container.style.filter = 'blur(5px)';
+        menu.style.filter = 'blur(5px)';
+    };
+    function getPopupExercise() {
+        return {
+            name: document.getElementById('popup-exercise-name').textContent.replace('Exercise Name: ', ''),
+            type: document.getElementById('popup-exercise-type').textContent.replace('Type: ', ''),
+            muscle: document.getElementById('popup-exercise-muscle').textContent.replace('Muscle targeted: ', ''),
+            equipment: document.getElementById('popup-exercise-equipment').textContent.replace('Equipment: ', ''),
+            difficulty: document.getElementById('popup-exercise-difficulty').textContent.replace('Difficulty: ', ''),
+            instructions: document.getElementById('popup-exercise-instructions').textContent.replace('Instructions: ', ''),
+            star: document.getElementById('star')
         };
-
+    }
 </script>

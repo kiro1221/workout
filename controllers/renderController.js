@@ -51,4 +51,11 @@ render.get('/templates', async (req, res) => {
         res.status(400).json(err);
     }
 })
+render.get('/Log-Workout', async (req, res) => {
+    try {
+        res.render("Log-Workout");
+    } catch (err) {
+        res.status(400).json(err);
+    }
+})
 module.exports = render;

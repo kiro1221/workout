@@ -19,7 +19,7 @@ body {
     background: var(--background);
     color: var(--color);
     padding: 20px;
-    width: 20%; /* Sidebar width */
+    width: 14%; /* Sidebar width */
     height: 100vh; /* Full screen height */
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* Sidebar shadow */
     position: fixed; /* Fixed position */
@@ -61,7 +61,7 @@ body {
     cursor: pointer;
 }
 .container {
-    margin-left: 21%; 
+    margin-left: 14%; 
     padding-left: 30px;
     width: 100%;
     overflow-y: auto;
@@ -166,19 +166,14 @@ text-decoration: underline;
 }
 
 .addToFavBtn {
-    background-color: #ffcc00;
-    color: white;
-    border: none;
+    background-color: transparent;
+    border: 1px solid transparent;
     padding: 5px 10px;
     font-size: 1.2em;
     cursor: pointer;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
     transition: background-color 0.3s ease;
 }
-
-.addToFavBtn:hover {
-    background-color: #e6b800;
-}
-
 
 .exercise-type, 
 .exercise-muscle, 

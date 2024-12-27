@@ -34,29 +34,37 @@ exerciseRouter.get('/exercises', async (req, res) => {
 });
 exerciseRouter.post('/favorite', checkUser, async (req, res) => {
     const { exercise } = req.body;
-    const user = res.locals.user;
+    const user = res.locals.user; 
+    
     if (!user) {
-        return res.status(200).json("You must be logged in to favorite exercises");
-    } try {
-        const exerciseAlreadyFavorited = user.favorites.some(favExercise =>
-            favExercise.name === exercise.name && favExercise.type === exercise.type
+        return res.status(401).json({ message: "You must be logged in to manage favorites" });
+    }
+
+    try {
+        const exerciseIndex = user.favorites.findIndex(
+            favExercise =>
+                favExercise.name === exercise.name && favExercise.type === exercise.type
         );
 
-        if (exerciseAlreadyFavorited) {
-            return res.status(200).json({ message: "Exercise already in favorites" });
-        }
-        if (exercise && typeof exercise === 'object') {
-            user.favorites.push(exercise);
+        if (exerciseIndex !== -1) {
+            user.favorites.splice(exerciseIndex, 1)
             await user.save();
-            res.status(200).json({ message: 'Exercise added to favorites!' });
+            return res.status(200).json({ message: "Exercise removed from favorites" });
         } else {
-            res.status(400).json({ message: "Invalid exercise object" });
+            if (exercise && typeof exercise === 'object') {
+                user.favorites.push(exercise); 
+                await user.save();
+                return res.status(200).json({ message: "Exercise added to favorites" });
+            } else {
+                return res.status(400).json({ message: "Invalid exercise object" });
+            }
         }
     } catch (err) {
         console.error('Error:', err);
-        res.status(500).json({ error: 'Failed to add exercise to favorites' });
+        return res.status(500).json({ error: "Failed to manage favorites" });
     }
 });
+
 exerciseRouter.get('/favorite', checkUser, async (req, res) => {
     const userId = res.locals.user;  
     try {
