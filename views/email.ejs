@@ -1,0 +1,42 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Who to follow</title>
+    <link rel="stylesheet" href="/authstyle.css">
+    <style>
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h1 class="opacity">Change password</h1>
+        <form id="emailForm">
+            <input type="text" id="email" placeholder="Email" required>
+            <p>An email will be sent to reset password</p>
+            <button type="submit">Send Email</button>
+        </form>
+    </div>
+    <script>
+
+        const email = document.getElementById('email');
+        const form = document.getElementById('emailForm');
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault()
+            const emailValue = email.value
+            try{
+                const response = await fetch('/auth/changePasswordRequest',{
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email: emailValue })
+                })
+                const result = await response.json();
+                console.log(result);
+            } catch (err) {
+                console.log("Error:", err); 
+            }
+            })
+        </script>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="stylesheet" href="/home.css">
+</head>
+<div class="navbar"><!---TODO:make partial-->
+    <img src="#" alt="Logo">
+    <div class="menu" id="menu">
+        <template id="loggedOut">
+            <a href="#">Today</a>
+            <a href="/render/templates">Templates</a>
+            <a href="#">Stats</a>
+            <a href="/render/login">Workouts</a> <!---Information-->
+            <a href="#">Log workout</a>
+            <a href="/render/register">Register</a>
+            <a href="/render/login">Login</a>
+        </template>
+        <template id="loggedIn">
+            <a href="#">Today</a>
+            <a href="/render/templates">Templates</a>
+            <a href="#">Stats</a>
+            <a href="/render/">Workouts</a> <!---Information-->
+            <a href="#">Log workout</a>
+            <a href="/profile">Profile</a>
+            <a href="/render/changePassword">Change Password</a>
+            <button id="logoutLink" onclick="logout()">Logout</button>
+        </template>
+    </div>
+</div>
+<script>
+    const menu = document.getElementById('menu');
+    const loggedInTemplate = document.getElementById('loggedIn');
+    const loggedOutTemplate = document.getElementById('loggedOut');
+    document.addEventListener('DOMContentLoaded', async function () {
+        let content;
+        try {
+            const response = await fetch('/auth/user');
+            const user = await response.json();
+            if (user === null) {
+                console.log('User is not logged in');
+                content = loggedOutTemplate.content.cloneNode(true);
+
+            } else {
+                console.log('User is logged in');
+                content = loggedInTemplate.content.cloneNode(true);
+            }
+
+            menu.appendChild(content);
+        } catch (error) {
+            console.error('Error fetching user data:', error);
+        }
+    });
+    function logout() {
+        fetch('/auth/logout', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            credentials: 'same-origin'
+        })
+            .then(response => {
+                if (response.ok) {
+                    alert('You have been logged out.');
+                    window.location.href = '/render/';
+                } else {
+                    alert('Logout failed.');
+                }
+            })
+            .catch(error => {
+                console.error('Error during logout:', error);
+                alert('There was an error logging you out.');
+            });
+    }
+</script>

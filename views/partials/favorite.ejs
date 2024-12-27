@@ -1,0 +1,32 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Favorite</title>
+</head>
+<body>
+    
+</body>
+</html>
+<script>
+
+async function getFavWorkouts() {
+    try {
+        const res = await fetch('/exercises/favorite', {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json' },
+        });
+        const data = await res.json();
+        const favoriteExercises = data.favorites || [];
+        createResult(favoriteExercises);
+    } catch (err) {
+        console.log("Error:", err);
+        result.innerHTML = '<p>Failed to fetch favorite exercises. Please try again later.</p>';
+    }
+}
+function addToFav() {
+    console.log('add to fav');
+}
+
+</script>
+

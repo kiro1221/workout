@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Templates</title>
+    <link rel="stylesheet" href="/home.css">
+    <link rel="stylesheet" href="/template.css">
+</head>
+<body>
+    <%- include('partials/menu'); -%>
+    <div class="container" id="container">
+        <div class="addTemplate">
+            <button class="templateBtn">+ Create Template</button>
+        </div>
+        <h2 class="h2">Favorite Exercises:</h2>
+
+        <div class="favEx" id="result"></div>
+        <h2 class="h2">Templates:</h2>
+    </div>
+    <%- include('partials/popup'); -%>
+    <%- include('partials/results'); -%>
+    <%- include('partials/favorite'); -%>
+    <script>
+        let result = document.getElementById('result');
+        const starButton = document.getElementById('popup-star-button');
+        const exerciseName = document.getElementById('popup-exercise-name');
+        const exerciseType = document.getElementById('popup-exercise-type');
+        const exerciseMuscle = document.getElementById('popup-exercise-muscle');
+        const exerciseEquipment = document.getElementById('popup-exercise-equipment');
+        const exerciseDifficulty = document.getElementById('popup-exercise-difficulty');
+        const exerciseInstructions = document.getElementById('popup-exercise-instructions');
+        const popUp = document.getElementById('popUp');
+        const container = document.getElementById('container');
+
+        // const createFavoriteExercise = data => {
+        //     result.innerHTML = '';
+        //     data.forEach(element => {
+        //         const exercise = document.createElement('div');
+        //         exercise.className = 'exercise-card';
+        //         exercise.innerHTML = `
+        //             <h2 class="exercise-name">Exercise name: ${element.name}</h2>
+        //             <h3 class="exercise-type">Type: ${element.type}</h3>
+        //             <h3 class="exercise-muscle">Muscle targeted: ${element.muscle}</h3>
+        //             <h3 class="exercise-equipment">Equipment: ${element.equipment}</h3>
+        //             <h3 class="exercise-difficulty">Difficulty: ${element.difficulty}</h3>
+        //             <p class="exercise-instructions">Instructions: ${element.instructions}</p>
+        //         `;
+        //         exercise.addEventListener('click', () => openPopup(element));
+        //         result.appendChild(exercise);
+        //     });
+        // };
+        getFavWorkouts();
+    </script>
+</body>
+</html>

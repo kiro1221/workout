@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workouts</title>
+    <link rel="stylesheet" href="/home.css">
+    <link rel="stylesheet" href="/template.css">
+</head>
+<body onclick="closePopUp()">
+    <%- include('partials/menu'); -%>
+    <div class="container" id="container">
+        <div class="content">
+            <h1>Look for exercises</h1>
+            <p>Select muscle group:</p>
+            <button onclick="getWorkouts('Abdominals','')" class="workout-button">Abdominals</button>
+            <button onclick="getWorkouts('Abductors','')" class="workout-button">Abductors</button>
+            <button onclick="getWorkouts('Adductors','')" class="workout-button">Adductors</button>
+            <button onclick="getWorkouts('Biceps','')" class="workout-button">Biceps</button>
+            <button onclick="getWorkouts('Calves','')" class="workout-button">Calves</button>
+            <button onclick="getWorkouts('Chest','')" class="workout-button">Chest</button>
+            <button onclick="getWorkouts('Forearms','')" class="workout-button">Forearms</button>
+            <button onclick="getWorkouts('Glutes','')" class="workout-button">Glutes</button>
+            <button onclick="getWorkouts('Hamstrings','')" class="workout-button">Hamstrings</button>
+            <button onclick="getWorkouts('Lats','')" class="workout-button">Lats</button>
+            <button onclick="getWorkouts('Lower Back','')" class="workout-button">Lower Back</button>
+            <button onclick="getWorkouts('Middle Back','')" class="workout-button">Middle Back</button>
+            <button onclick="getWorkouts('Neck','')" class="workout-button">Neck</button>
+            <button onclick="getWorkouts('Quadriceps','')" class="workout-button">Quadriceps</button>
+            <button onclick="getWorkouts('Traps','')" class="workout-button">Traps</button>
+            <button onclick="getWorkouts('Triceps','')" class="workout-button">Triceps</button>
+            <div class="type">
+                <p>Select exercise type:</p>
+                <button onclick="getWorkouts('','Cardio')" class="workout-button">Cardio</button>
+                <button onclick="getWorkouts('','Olympic_weightlifting')" class="workout-button">Olympic Weightlifting</button>
+                <button onclick="getWorkouts('','Plyometrics')" class="workout-button">Plyometrics</button>
+                <button onclick="getWorkouts('','Powerlifting')" class="workout-button">Powerlifting</button>
+                <button onclick="getWorkouts('','Strength')" class="workout-button">Strength</button>
+                <button onclick="getWorkouts('','Stretching')" class="workout-button">Stretching</button>
+                <button onclick="getWorkouts('','Strongman')" class="workout-button">Strongman</button>
+            </div>
+        </div>
+        
+        <div class="result" id="resultApi"></div>
+    </div>
+    <div class="popUp" id="popUp">
+        <div class="popup-card">
+            <button class="closeBtn" onclick="closePopUp()">X</button>
+            <div class="name-container">
+                <h2 id="popup-exercise-name" class="exercise-name"></h2>
+                <button onclick="addToFax()" class="addToFavBtn">⭐️</button>
+            </div>
+            <h3 id="popup-exercise-type" class="exercise-type"></h3>
+            <h3 id="popup-exercise-muscle" class="exercise-muscle"></h3>
+            <h3 id="popup-exercise-equipment" class="exercise-equipment"></h3>
+            <h3 id="popup-exercise-difficulty" class="exercise-difficulty"></h3>
+            <p id="popup-exercise-instructions" class="exercise-instructions"></p>
+        </div>
+    </div>
+    <script>
+        let result = document.getElementById('resultApi');
+        const exerciseName = document.getElementById('popup-exercise-name');
+        const exerciseType = document.getElementById('popup-exercise-type');
+        const exerciseMuscle = document.getElementById('popup-exercise-muscle');
+        const exerciseEquipment = document.getElementById('popup-exercise-equipment');
+        const exerciseDifficulty = document.getElementById('popup-exercise-difficulty');
+        const exerciseInstructions = document.getElementById('popup-exercise-instructions');
+        const popUp = document.getElementById('popUp');
+        const container = document.getElementById('container');
+
+        function closePopUp() {
+                console.log('close');
+                popUp.style.display = 'none';
+                container.style.filter = 'none';
+                menu.style.filter = 'none';
+            
+        }        
+
+        function createResult(data) {
+            result.innerHTML = '';
+            data.forEach(element => {
+                let exercise = document.createElement('div');
+                exercise.className = 'exercise-card';
+
+                const name = document.createElement('h2');
+                name.className = 'exercise-name';
+                name.textContent = `Exercise name: ${element.name}`;
+
+                const type = document.createElement('h3');
+                type.className = 'exercise-type';
+                type.innerText = `Type: ${element.type}`;
+
+                const muscle = document.createElement('h3');
+                muscle.className = 'exercise-muscle';
+                muscle.innerText = `Muscle targeted: ${element.muscle}`;
+
+                const equipment = document.createElement('h3');
+                equipment.className = 'exercise-equipment';
+                equipment.innerText = `Equipment: ${element.equipment}`;
+
+                const difficulty = document.createElement('h3');
+                difficulty.className = 'exercise-difficulty';
+                difficulty.innerText = `Difficulty: ${element.difficulty}`;
+
+                const instruction = document.createElement('p');
+                instruction.className = 'exercise-instructions';
+                instruction.innerText = `Instructions: ${element.instructions}`;
+
+                exercise.appendChild(name);
+                exercise.appendChild(type);
+                exercise.appendChild(muscle);
+                exercise.appendChild(equipment);
+                exercise.appendChild(difficulty);
+                exercise.appendChild(instruction);
+                result.appendChild(exercise);
+
+                exercise.addEventListener('click', () => {
+                    const exerciseNameD = exercise.querySelector('.exercise-name').textContent;
+                    const exerciseTypeD = exercise.querySelector('.exercise-type').textContent;
+                    const exerciseMuscleD = exercise.querySelector('.exercise-muscle').textContent;
+                    const exerciseEquipmentD = exercise.querySelector('.exercise-equipment').textContent;
+                    const exerciseDifficultyD = exercise.querySelector('.exercise-difficulty').textContent;
+                    const exerciseInstructionsD = exercise.querySelector('.exercise-instructions').textContent;
+
+                    popUp.style.display = 'block';
+                    container.style.filter = 'blur(5px)';
+                    menu.style.filter = 'blur(5px)';
+                    exerciseName.textContent = exerciseNameD;
+                    exerciseType.textContent = exerciseTypeD;
+                    exerciseMuscle.textContent = exerciseMuscleD;
+                    exerciseEquipment.textContent = exerciseEquipmentD;
+                    exerciseDifficulty.textContent = exerciseDifficultyD;
+                    exerciseInstructions.innerText = exerciseInstructionsD;
+                });
+            });
+        }
+
+        function getWorkouts(muscle, type) {
+            fetch(`/exercises/exercises?muscle=${muscle}&type=${type}`)
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                    createResult(data);
+                })
+                .catch(error => {
+                    console.error('Error fetching workouts:', error);
+                });
+        }
+        function addToFav() {
+            console.log('add to fav');
+        }
+    </script>
+</body>
+</html>
