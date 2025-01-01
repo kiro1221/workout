@@ -6,30 +6,39 @@
     <title>Home</title>
     <link rel="stylesheet" href="/home.css">
 </head>
+<%- include('partials/popup'); -%>
+<%- include('partials/all'); -%>
+<%- include('partials/results'); -%>
+<%- include('partials/favorite'); -%>
 <div class="navbar"><!---TODO:make partial-->
     <img src="#" alt="Logo">
     <div class="menu" id="menu">
         <template id="loggedOut">
-            <a href="#">Today</a>
-            <a href="/render/templates">Templates</a>
-            <a href="#">Stats</a>
-            <a href="/render/login">Workouts</a> <!---Information-->
-            <a href="/render/Log-Workout">Log workout</a>
-            <a href="/render/register">Register</a>
-            <a href="/render/login">Login</a>
+            <ul>
+                <li ><a href="#">Today</a></li>
+                <li ><a href="/render/templates">Templates</a></li>
+                <li><a href="#">Stats</a></li>
+                <li><a href="/render/login">Workouts</a></li> <!---Information-->
+                <li><a href="/render/Log-Workout">Log workout</a></li>
+                <li><a href="/render/register">Register</a></li>
+                <li><a href="/render/login">Login</a></li>
+            </ul>
         </template>
         <template id="loggedIn">
-            <a href="#">Today</a>
-            <a href="/render/templates">Templates</a>
-            <a href="#">Stats</a>
-            <a href="/render/">Workouts</a> <!---Information-->
-            <a href="/render/Log-Workout">Log workout</a>
-            <a href="/profile">Profile</a>
-            <a href="/render/changePassword">Change Password</a>
-            <button id="logoutLink" onclick="logout()">Logout</button>
+            <ul>
+                <li><a href="#">Today</a></li>
+                <li class="<%= activePage === 'templates' ? 'active' : '' %>"><a href="/render/templates">Templates</a></li>
+                <li><a href="#">Stats</a></li>
+                <li class="<%= activePage === 'workouts' ? 'active' : '' %>"><a href="/render/">Workouts</a></li> <!---Information-->
+                <li class="<%= activePage === 'Log-Workout' ? 'active' : '' %>"><a href="/render/Log-Workout">Log workout</a></li>
+                <li><a href="/profile">Profile</a></li>
+                <li><a href="/render/changePassword">Change Password</a></li>
+                <li><button id="logoutLink" onclick="logout()">Logout</button></li>
+            </ul>
         </template>
     </div>
 </div>
+
 <script>
     const menu = document.getElementById('menu');
     const loggedInTemplate = document.getElementById('loggedIn');
@@ -42,7 +51,6 @@
             if (user === null) {
                 console.log('User is not logged in');
                 content = loggedOutTemplate.content.cloneNode(true);
-
             } else {
                 console.log('User is logged in');
                 content = loggedInTemplate.content.cloneNode(true);

@@ -4,7 +4,7 @@ const render = express.Router();
 
 render.get('/', async (req, res) => {
     try {
-        res.render("workouts");
+        res.render("workouts", { activePage: 'workouts' });
     } catch (err) {
         res.status(400).json(err);
     }
@@ -46,14 +46,14 @@ render.get('/email', async (req, res) => {
 })
 render.get('/templates', async (req, res) => {
     try {
-        res.render("templates");
+        res.render("templates", { activePage: 'templates' });
     } catch (err) {
         res.status(400).json(err);
     }
 })
 render.get('/Log-Workout', async (req, res) => {
     try {
-        res.render("Log-Workout");
+        res.render("Log-Workout", { activePage: 'Log-Workout' });
     } catch (err) {
         res.status(400).json(err);
     }

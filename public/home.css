@@ -1,7 +1,7 @@
 :root {
-    --background: #1a1a2e;
-    --color: #ffffff;
-    --primary-color: #0f3460;
+    --background: #2c3e50;
+    --color: #ecf0f1;
+    --primary-color: #34495e;
 }
 
 body {
@@ -41,6 +41,20 @@ body {
     gap: 15px; /* Vertical spacing between items */
     width: 100%;
 }
+
+.navbar ul {
+    list-style-type: none; /* Remove default list styling */
+    padding: 0; /* Remove default padding */
+    margin-bottom: 10px;
+    width: 100%; /* Full width for better clickable area */
+}
+
+.navbar li {
+    margin-bottom: 30px;
+    font-size: 18px;
+    width: 100%; /* Full width for better clickable area */
+}
+
 .navbar a {
     color: var(--color);
     text-decoration: none;
@@ -49,19 +63,33 @@ body {
     width: 100%; /* Full width for better clickable area */
     transition: background-color 0.3s ease;
     text-align: left; /* Align text to the left */
+    display: flex;
+    align-items: center; /* Center text vertically */
+    height: 100%; /* Ensure the link takes full height of the list item */
+}
+
+.navbar button {
+    height: 75px;
+    width: 100%; /* Ensure the link takes full height of the list item */
 }
 
 .navbar a:hover {
     background-color: #575757;
 }
-#logoutLink{
+
+.menu li.active a {
+    background-color: #575757;
+}
+
+#logoutLink {
     height: 30px;
     border-radius: 5px;
     background-color: #ffffff;
     cursor: pointer;
 }
+
 .container {
-    margin-left: 14%; 
+    /* margin-left: 14%;  */
     padding-left: 30px;
     width: 100%;
     overflow-y: auto;
@@ -70,15 +98,7 @@ body {
     color: var(--color); 
     box-sizing: border-box; 
 }
-/* .container button{
-    background-color: #ffffff;
-    color: #000000;
-    border-radius: 5px;
-    padding: 10px;
-    cursor: pointer;
-    font-size: 15px;
-    
-} */
+
 .workout-button {
     background-color: #fdfdfd; /* Green background */
     border: none;
@@ -94,75 +114,71 @@ body {
     transition: background-color 0.3s ease;
 }
 
-/* Style for button hover */
 .workout-button:hover {
-text-decoration: underline;
+    text-decoration: underline;
 }
-
-/* Style for the type section */
-.type {
-    margin-top: 20px;
+#header{
+    font-size: 16px;
+    padding-left: 30px;
 }
-
 .content {
     padding: 20px;
 }
 
 #result {
     display: grid; 
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); /* Adjusted min-width to take more columns */
-    gap: 10px; /* Adjusted gap between columns */
+    grid-template-columns: repeat(3, 1fr); /* Three cards per row */
+    gap: 45px; /* Adjusted gap between rows */
     padding: 20px;
     justify-content: start; 
-    max-height: 400px;
+    max-height: 230px;
     overflow-y: scroll;
 }
-#resultApi{
+
+#resultApi {
     display: grid; 
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); /* Adjusted min-width to take more columns */
-    gap: 5px; /* Reduced gap between columns */
+    grid-template-columns: repeat(3, 1fr); /* Three cards per row */
+    gap: 25px; /* Adjusted gap between rows */
     padding: 20px;
     justify-content: start; 
     max-height: 100vh;
     overflow-y: scroll;
 }
+hr{
 
-
+}
 .exercise-card {
     position: relative; 
     background-color: #f9f9f9;
     border: 1px solid #ddd;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    max-width: 400px;
-    max-height: 200px;
+    padding: 10px;
+    width: 95%;
+    max-height: 230px;
     text-align: left;
     overflow-y: hidden;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    /* background: linear-gradient(135deg, #f9f9f9 25%, transparent 25%) -50px 0,
-                linear-gradient(225deg, #f9f9f9 25%, transparent 25%) -50px 0,
-                linear-gradient(315deg, #f9f9f9 25%, transparent 25%),
-                linear-gradient(45deg, #f9f9f9 25%, transparent 25%); */
     background-size: 100px 100px;
     background-color: #ddd;
 }
+
 .exercise-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
 }
+
 .name-container {
     display: flex; /* Enable Flexbox */
     justify-content: space-between; /* Push name and button to the ends */
     align-items: center; /* Vertically align items */
-    margin-bottom: 10px; /* Add spacing below the container */
-    width: fit-content;
+        width: fit-content;
 }
 
 .exercise-name {
     font-size: 1.5em;
     color: #333;
-    padding-right: 10px;;
+    padding-right: 10px;
 }
 
 .addToFavBtn {
@@ -183,17 +199,22 @@ text-decoration: underline;
     color: #555;
     margin: 5px 0;
 }
-
 .exercise-instructions {
     font-size: 0.95em;
     color: #666;
     margin-top: 10px;
     line-height: 1.5;
+
 }
-.addTemplate{
+
+.float-right {
+    float: right;
+}
+.addTemplate {
     margin-top: 10px;
 }
-.templateBtn{
+
+.templateBtn {
     font-size: 22px;
     cursor: pointer;
     display: block;
@@ -201,10 +222,74 @@ text-decoration: underline;
     width: 450px;
     height: 45px;
 }
-.closeBtn{
+
+.closeBtn {
     font-size: 40px;
     background-color: transparent;
     border: 1px solid transparent;
     float: right;
     cursor: pointer;
 }
+select {
+    margin-right: 10px;
+    width: 250px;
+    height: 50px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid black;
+    font-size: 16px;
+    background-color: #f9f9f9;
+    color: #333;
+    cursor: pointer;
+    font-size: 18px;
+    display: inline-block; /* Ensure select elements are inline */
+}
+
+option {
+    width: 250px;
+    height: 50px;
+    padding: 10px;
+    font-size: 18px;
+    background-color: #fff;
+    color: #333;
+    border: 1px solid black;
+
+}
+
+.dropdown {
+    display: inline-block;
+}
+
+.type {
+    display: inline-block;
+    margin-top: 0; /* Remove top margin to align with the first dropdown */
+}
+
+.miniMenu {
+    margin-left: 20px;
+    width: 270px;
+    height: 40px;
+    display: flex;
+    justify-content: flex-start;
+    background-color: rgb(255, 255, 255);
+    border: 1px solid #ccc; /* Optional: Adds a border around the div */
+    border-radius: 5px;
+}
+
+.miniMenu .btn {
+    width: 100%;
+    font-size: 15px;
+    height: 95%;
+    background-color: white;
+    margin-right: 0px; /* Space between buttons */
+    padding: 8px 16px;
+    color: rgb(0, 0, 0); /* Button text color */
+    border: none; /* Removes border */
+    border-radius: 4px; /* Rounded corners */
+    cursor: pointer; /* Pointer cursor on hover */
+    border: 1px solid #ccc; /* Optional: Adds a border around the button */
+    border-radius: 2px;
+}
+
+.miniMenu .btn:hover {
+text-decoration: underline;}

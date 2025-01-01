@@ -1,29 +1,33 @@
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Result</title>
 </head>
+
 <body>
-    
+
 </body>
+
 </html>
 <script>
-const createResult = data => {
-    result.innerHTML = '';
-    data.forEach(element => {
-        const exercise = document.createElement('div');
-        exercise.className = 'exercise-card';
-        exercise.innerHTML = `
-            <h2 class="exercise-name">Exercise name: ${element.name}</h2>
-            <h3 class="exercise-type">Type: ${element.type}</h3>
-            <h3 class="exercise-muscle">Muscle targeted: ${element.muscle}</h3>
-            <h3 class="exercise-equipment">Equipment: ${element.equipment}</h3>
-            <h3 class="exercise-difficulty">Difficulty: ${element.difficulty}</h3>
-            <p class="exercise-instructions">Instructions: ${element.instructions}</p>
+    const createResult = data => {
+        result.innerHTML = '';
+        data.forEach((element, index) => {
+            const exercise = document.createElement('div');
+            exercise.className = 'exercise-card';
+            exercise.innerHTML = `
+            <h2 class="exercise-name"><span class="workoutName">${element.name}</span></h2>
+            <h3 class="exercise-type">Type: <span class="float-right">${element.type}</span></h3><hr>
+            <h3 class="exercise-muscle">Muscle targeted: <span class="float-right">${element.muscle}</span></h3><hr>
+            <h3 class="exercise-equipment">Equipment: <span class="float-right">${element.equipment}</span></h3><hr>
+             <h3 class="exercise-difficulty">Difficulty: 
+                <span class="float-right" ">${element.difficulty}</span>           
+            <p class="exercise-instructions"><span class="float-right">${element.instructions}</span></p> 
         `;
-        exercise.addEventListener('click', () => openPopup(element));
-        result.appendChild(exercise);
-    });
-};
+            exercise.addEventListener('click', () => openPopup(element));
+            result.appendChild(exercise);
+        });
+    };
 </script>

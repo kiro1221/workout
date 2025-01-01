@@ -9,31 +9,38 @@
     <link rel="stylesheet" href="/template.css">
 </head>
 <body>
-    <%- include('partials/menu'); -%>
     <div class="container" id="container">
         <div class="content">
             <h1>Look for exercises</h1>
-            <p>Select muscle group:</p>
-            <div id="muscle-buttons" class="button-group">
-            </div>
+            <p style="font-size: 1.2em;">Find the perfect exercise for your workout</p>
+            <select id="muscle-select" class="dropdown">
+                <option value="">Select muscle group</option>
+            </select>
             
             <div class="type">
-                <p>Select exercise type:</p>
-                <div id="type-buttons" class="button-group">
-                </div>
+                <select id="type-select" class="dropdown">
+                    <option value="">Select exercise type</option>
+                </select>
             </div>
         </div>
-        
+        <div class="miniMenu">TODO:SHOW FAV EXERCISES(FUNCTION IS MADE IN PARTIALS)
+            <button class="btn" id="all">All Exercises</button>
+            <button class="btn" id="favorite">Favorites</button>
+        </div>
+        <h2 id="header">Showing Workouts: </h2>
         <div class="result" id="resultApi"></div>
     </div>
     <%- include('partials/popup'); -%>
+    <%- include('partials/all'); -%>
     <%- include('partials/results'); -%>
     <%- include('partials/favorite'); -%>
+    
     <script>
         const container = document.getElementById('container');            
         const result = document.getElementById('resultApi');
-        const muscleButtons = document.getElementById('muscle-buttons');
-        const typeButtons = document.getElementById('type-buttons');
+        const muscleSelect = document.getElementById('muscle-select');
+        const typeSelect = document.getElementById('type-select');
+        const header = document.getElementById('header');
         const muscleGroups = [
             'Abdominals', 'Abductors', 'Adductors', 'Biceps', 'Calves', 'Chest', 
             'Forearms', 'Glutes', 'Hamstrings', 'Lats', 'Lower_Back', 'Middle_Back', 
@@ -44,28 +51,51 @@
             'Powerlifting', 'Strength', 'Stretching', 'Strongman'
         ];
 
-        const createButton = (text, onClickHandler) => {
-            const button = document.createElement('button');
-            button.className = 'workout-button';
-            button.textContent = text;
-            button.addEventListener('click', onClickHandler);
-            return button;
-        };
-
         muscleGroups.forEach(muscle => {
-            muscleButtons.appendChild(createButton(muscle, () => getWorkouts(muscle, '')));
+            const option = document.createElement('option');
+            option.value = muscle;
+            option.textContent = muscle;
+            muscleSelect.appendChild(option);
+        });
+ 
+        exerciseTypes.forEach(type => {
+            const option = document.createElement('option');
+            option.value = type;
+            option.textContent = type;
+            typeSelect.appendChild(option);
         });
 
-        exerciseTypes.forEach(type => {
-            typeButtons.appendChild(createButton(type, () => getWorkouts('', type)));
+        muscleSelect.addEventListener('change', () => {
+            getWorkouts(muscleSelect.value, typeSelect.value);
+        });
+
+        typeSelect.addEventListener('change', () => {
+            getWorkouts(muscleSelect.value, typeSelect.value);
         });
 
         const getWorkouts = (muscle, type) => {
             fetch(`/exercises/exercises?muscle=${muscle}&type=${type}`)
                 .then(response => response.json())
-                .then(data => createResult(data))
+                .then(data => {
+                    if(muscle === '' && type === '') {
+                        header.textContent = 'Showing Favorite Workouts:';
+                    } else if(muscle === '') {
+                        header.textContent = `Showing ${type} exercises:`;
+                    } else if(type === '') {
+                        header.textContent = `Showing ${muscle} exercises:`;
+                    } else {
+                        header.textContent = `Showing ${type} ${muscle} exercises:`;
+                    }
+                    createResult(data);
+                })
                 .catch(error => console.error('Error fetching workouts:', error));
         };
+
+        // document.addEventListener('DOMContentLoaded', () => getFavWorkouts());
+        document.addEventListener('DOMContentLoaded', () => getAllWorkouts());
+
     </script>
+</body>
+</html>
 </body>
 </html>
