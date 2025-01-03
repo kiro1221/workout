@@ -8,77 +8,64 @@ body {
     margin: 0px;
     font-family: Arial, sans-serif;
     display: flex;
-    height: 100vh; /* Ensures the layout fills the entire screen height */
+    height: 100vh;
 }
-
 .navbar {
-    display: flex;
-    flex-direction: column; /* Vertical layout */
-    justify-content: flex-start;
-    align-items: flex-start;
-    background: var(--background);
-    color: var(--color);
-    padding: 20px;
-    width: 14%; /* Sidebar width */
-    height: 100vh; /* Full screen height */
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* Sidebar shadow */
-    position: fixed; /* Fixed position */
+    position: absolute;
     top: 0;
     left: 0;
+    width: 100%;
     z-index: 1000;
-    overflow-y: auto; /* Add scrolling for overflow content */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 20px;
+    background-color: var(--background);
+    border-bottom: 1px solid transparent;
+    box-shadow: 0 2px 4px rgba(26, 26, 26, 0.277);
 }
 
 .navbar img {
-    height: 70px;
-    border-radius: 50%;
-    margin-bottom: 20px; /* Add spacing below the image */
+    position: absolute;
+    left: 20px;
+    height: 40px;
 }
 
-.navbar .menu {
+.menu {
     display: flex;
-    flex-direction: column;
-    gap: 15px; /* Vertical spacing between items */
-    width: 100%;
+    align-items: center;
+    text-align: center;
+    padding-top: 10px;
 }
 
-.navbar ul {
-    list-style-type: none; /* Remove default list styling */
-    padding: 0; /* Remove default padding */
-    margin-bottom: 10px;
-    width: 100%; /* Full width for better clickable area */
+.menu ul {
+    display: flex;
+    list-style: none;
+    margin: 0 auto;
+    padding: 0;
 }
 
-.navbar li {
-    margin-bottom: 30px;
-    font-size: 18px;
-    width: 100%; /* Full width for better clickable area */
+.menu ul li {
+    margin: 0 15px;
 }
 
-.navbar a {
-    color: var(--color);
+.menu ul li a  {
     text-decoration: none;
-    padding: 12px 16px;
-    border-radius: 5px;
-    width: 100%; /* Full width for better clickable area */
-    transition: background-color 0.3s ease;
-    text-align: left; /* Align text to the left */
-    display: flex;
-    align-items: center; /* Center text vertically */
-    height: 100%; /* Ensure the link takes full height of the list item */
+    font-size: 16px;
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    transition: color 0.3s ease, background-color 0.3s ease;
 }
-
-.navbar button {
-    height: 75px;
-    width: 100%; /* Ensure the link takes full height of the list item */
+.menu ul li button{
+    color: black;
 }
-
-.navbar a:hover {
-    background-color: #575757;
-}
-
-.menu li.active a {
-    background-color: #575757;
+.menu ul li a:hover, .menu ul li button:hover {
+    color: #007BFF;
+    background-color: rgba(0, 123, 255, 0.1);
+    border-radius: 4px;
 }
 
 #logoutLink {
@@ -89,18 +76,17 @@ body {
 }
 
 .container {
-    /* margin-left: 14%;  */
     padding-left: 30px;
     width: 100%;
     overflow-y: auto;
-    height: 200vh; 
+    height: 200vh;
     background: var(--primary-color);
-    color: var(--color); 
-    box-sizing: border-box; 
+    color: var(--color);
+    box-sizing: border-box;
 }
 
 .workout-button {
-    background-color: #fdfdfd; /* Green background */
+    background-color: #fdfdfd;
     border: none;
     color: rgb(0, 0, 0);
     padding: 10px 10px;
@@ -117,38 +103,39 @@ body {
 .workout-button:hover {
     text-decoration: underline;
 }
-#header{
+
+#header {
     font-size: 16px;
     padding-left: 30px;
 }
+
 .content {
     padding: 20px;
+    margin-top: 50px;
 }
 
 #result {
-    display: grid; 
-    grid-template-columns: repeat(3, 1fr); /* Three cards per row */
-    gap: 45px; /* Adjusted gap between rows */
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 45px;
     padding: 20px;
-    justify-content: start; 
+    justify-content: start;
     max-height: 230px;
     overflow-y: scroll;
 }
 
 #resultApi {
-    display: grid; 
-    grid-template-columns: repeat(3, 1fr); /* Three cards per row */
-    gap: 25px; /* Adjusted gap between rows */
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
     padding: 20px;
-    justify-content: start; 
+    justify-content: start;
     max-height: 100vh;
     overflow-y: scroll;
 }
-hr{
 
-}
 .exercise-card {
-    position: relative; 
+    position: relative;
     background-color: #f9f9f9;
     border: 1px solid #ddd;
     border-radius: 8px;
@@ -169,10 +156,10 @@ hr{
 }
 
 .name-container {
-    display: flex; /* Enable Flexbox */
-    justify-content: space-between; /* Push name and button to the ends */
-    align-items: center; /* Vertically align items */
-        width: fit-content;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: fit-content;
 }
 
 .exercise-name {
@@ -199,17 +186,18 @@ hr{
     color: #555;
     margin: 5px 0;
 }
+
 .exercise-instructions {
     font-size: 0.95em;
     color: #666;
     margin-top: 10px;
     line-height: 1.5;
-
 }
 
 .float-right {
     float: right;
 }
+
 .addTemplate {
     margin-top: 10px;
 }
@@ -230,6 +218,7 @@ hr{
     float: right;
     cursor: pointer;
 }
+
 select {
     margin-right: 10px;
     width: 250px;
@@ -242,7 +231,7 @@ select {
     color: #333;
     cursor: pointer;
     font-size: 18px;
-    display: inline-block; /* Ensure select elements are inline */
+    display: inline-block;
 }
 
 option {
@@ -253,7 +242,6 @@ option {
     background-color: #fff;
     color: #333;
     border: 1px solid black;
-
 }
 
 .dropdown {
@@ -262,34 +250,86 @@ option {
 
 .type {
     display: inline-block;
-    margin-top: 0; /* Remove top margin to align with the first dropdown */
+    margin-top: 0;
 }
 
 .miniMenu {
     margin-left: 20px;
-    width: 270px;
+    width: 400px;
     height: 40px;
     display: flex;
-    justify-content: flex-start;
-    background-color: rgb(255, 255, 255);
-    border: 1px solid #ccc; /* Optional: Adds a border around the div */
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(224, 224, 224);
+    border: 1px solid transparent;
     border-radius: 5px;
 }
 
 .miniMenu .btn {
-    width: 100%;
     font-size: 15px;
     height: 95%;
-    background-color: white;
-    margin-right: 0px; /* Space between buttons */
+    background-color: rgb(224, 224, 224);
     padding: 8px 16px;
-    color: rgb(0, 0, 0); /* Button text color */
-    border: none; /* Removes border */
-    border-radius: 4px; /* Rounded corners */
-    cursor: pointer; /* Pointer cursor on hover */
-    border: 1px solid #ccc; /* Optional: Adds a border around the button */
-    border-radius: 2px;
+    color: rgb(0, 0, 0);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    border: 1px solid transparent;
+    margin: 0 1px;
 }
 
 .miniMenu .btn:hover {
-text-decoration: underline;}
+    text-decoration: underline;
+}
+
+.miniMenu .btn.active {
+    background-color: rgb(240, 240, 240);
+    text-decoration: underline;
+}
+
+.searchContainer {
+    position: absolute;
+    right: 60px;
+    top: 80px;
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(26, 26, 26, 0.277);
+}
+
+.searchContainer form {
+    display: flex;
+    align-items: center;
+}
+
+.searchContainer input[type="text"] {
+    width: 250px;
+    padding: 8px 12px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-right: 10px;
+    outline: none;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.searchContainer input[type="text"]:focus {
+    border-color: #007BFF;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+.searchContainer button {
+    padding: 8px 16px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #007BFF;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.searchContainer button:hover {
+    background-color: #0056b3;
+}

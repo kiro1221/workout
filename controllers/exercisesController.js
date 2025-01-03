@@ -14,9 +14,11 @@ const handleErrors = err => {
 exerciseRouter.get('/exercises', async (req, res) => {
     const muscle = req.query.muscle;
     const type = req.query.type;
+    const name = req.query.name;
+
     try {
         const response = await axios.get('https://api.api-ninjas.com/v1/exercises', {
-            params: { type, muscle },
+            params: { type, muscle, name },
             headers: {
                 'X-Api-Key': process.env.API_KEY
             }

@@ -9,6 +9,8 @@
     <link rel="stylesheet" href="/template.css">
 </head>
 <body>
+    <%- include('partials/menu'); -%>
+    <%- include('partials/search'); -%>
     <div class="container" id="container">
         <div class="content">
             <h1>Look for exercises</h1>
@@ -23,9 +25,11 @@
                 </select>
             </div>
         </div>
-        <div class="miniMenu">TODO:SHOW FAV EXERCISES(FUNCTION IS MADE IN PARTIALS)
+        <div class="miniMenu">
+            <!-- TODO:SHOW FAV EXERCISES(FUNCTION IS MADE IN PARTIALS) -->
             <button class="btn" id="all">All Exercises</button>
             <button class="btn" id="favorite">Favorites</button>
+            <button class="btn" id="recentlyView">Recently Viewed</button>
         </div>
         <h2 id="header">Showing Workouts: </h2>
         <div class="result" id="resultApi"></div>
@@ -57,7 +61,7 @@
             option.textContent = muscle;
             muscleSelect.appendChild(option);
         });
- 
+
         exerciseTypes.forEach(type => {
             const option = document.createElement('option');
             option.value = type;
@@ -72,7 +76,25 @@
         typeSelect.addEventListener('change', () => {
             getWorkouts(muscleSelect.value, typeSelect.value);
         });
-
+        document.getElementById('all').addEventListener('click', () => {
+            header.textContent = 'Showing All Workouts:';
+            getAllWorkouts();
+            document.getElementById('all').classList.add('active');
+            document.getElementById('favorite').classList.remove('active');
+        });
+        document.getElementById('favorite').addEventListener('click', () => {
+            header.textContent = 'Showing Your Favorite Workouts:';
+            getFavWorkouts();
+            document.getElementById('favorite').classList.add('active');
+            document.getElementById('all').classList.remove('active');
+        });
+        document.getElementById('recentlyView').addEventListener('click', () => {
+            header.textContent = 'Showing Your Recently Viewed Workouts:';
+            // TODO:IMPLEMENT RECENTLY VIEWED WORKOUTS
+            // getFavWorkouts();
+            document.getElementById('favorite').classList.add('active');
+            document.getElementById('all').classList.remove('active');
+        });
         const getWorkouts = (muscle, type) => {
             fetch(`/exercises/exercises?muscle=${muscle}&type=${type}`)
                 .then(response => response.json())
@@ -91,8 +113,12 @@
                 .catch(error => console.error('Error fetching workouts:', error));
         };
 
-        // document.addEventListener('DOMContentLoaded', () => getFavWorkouts());
-        document.addEventListener('DOMContentLoaded', () => getAllWorkouts());
+        document.addEventListener('DOMContentLoaded', () => {
+            getAllWorkouts();
+            header.textContent = 'Showing All Workouts:';
+            document.getElementById('all').classList.add('active');
+            document.getElementById('favorite').classList.remove('active');
+        });
 
     </script>
 </body>
