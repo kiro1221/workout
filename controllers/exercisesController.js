@@ -1,5 +1,5 @@
 const User = require("/Users/kiroragai/Desktop/Code/JS/Workout/backend/models/user.js");
-const Workouts = require("/Users/kiroragai/Desktop/Code/JS/Workout/backend/models/logWorkout.js");
+const Workout = require("/Users/kiroragai/Desktop/Code/JS/Workout/backend/models/logWorkout.js");
 
 const { checkUser, authMiddleware } = require('/Users/kiroragai/Desktop/Code/JS/Workout/backend/middleware/authMiddleware');
 const { passwordChangeConfirmation, changePasswordRequest } = require('/Users/kiroragai/Desktop/Code/JS/Workout/backend/mailer.js');
@@ -38,8 +38,8 @@ exerciseRouter.get('/exercises', async (req, res) => {
 });
 exerciseRouter.post('/recentlyView', checkUser, async (req, res) => {
     const { exercise } = req.body;
-    const user = res.locals.user; 
-    
+    const user = res.locals.user;
+
     if (!user) {
         return res.status(401).json({ message: "You must be logged in to manage recently viewed exercises" });
     }
@@ -57,7 +57,7 @@ exerciseRouter.post('/recentlyView', checkUser, async (req, res) => {
         if (exercise && typeof exercise === 'object') {
             user.recentlyView.unshift(exercise);
             if (user.recentlyView.length > 10) {
-                user.recentlyView.pop(); 
+                user.recentlyView.pop();
             }
             await user.save();
             return res.status(200).json({ message: "Exercise added to recently viewed" });
@@ -71,8 +71,8 @@ exerciseRouter.post('/recentlyView', checkUser, async (req, res) => {
 });
 exerciseRouter.post('/favorite', checkUser, async (req, res) => {
     const { exercise } = req.body;
-    const user = res.locals.user; 
-    
+    const user = res.locals.user;
+
     if (!user) {
         return res.status(401).json({ message: "You must be logged in to manage favorites" });
     }
@@ -89,7 +89,7 @@ exerciseRouter.post('/favorite', checkUser, async (req, res) => {
             return res.status(200).json({ message: "Exercise removed from favorites" });
         } else {
             if (exercise && typeof exercise === 'object') {
-                user.favorites.push(exercise); 
+                user.favorites.push(exercise);
                 await user.save();
                 return res.status(200).json({ message: "Exercise added to favorites" });
             } else {
@@ -103,9 +103,9 @@ exerciseRouter.post('/favorite', checkUser, async (req, res) => {
 });
 
 exerciseRouter.get('/favorite', checkUser, async (req, res) => {
-    const userId = res.locals.user;  
+    const userId = res.locals.user;
     try {
-        const user = await User.findById(userId);  
+        const user = await User.findById(userId);
         if (!user) {
             return res.status(404).json({ message: 'User not found' });
         }
@@ -116,9 +116,9 @@ exerciseRouter.get('/favorite', checkUser, async (req, res) => {
     }
 });
 exerciseRouter.get('/recentlyViewed', checkUser, async (req, res) => {
-    const userId = res.locals.user;  
+    const userId = res.locals.user;
     try {
-        const user = await User.findById(userId);  
+        const user = await User.findById(userId);
         if (!user) {
             return res.status(404).json({ message: 'User not found' });
         }
@@ -128,31 +128,30 @@ exerciseRouter.get('/recentlyViewed', checkUser, async (req, res) => {
         res.status(500).json({ error: 'Failed to add exercise to favorites' });
     }
 });
-// exerciseRouter.post('/log', checkUser, async (req, res) => {
-//     const { exercises } = req.body;
-//     const user = res.locals.user;  
+exerciseRouter.post('/workouts', checkUser, async (req, res) => {
+    const userId = res.locals.user;
+    try {
+        const workoutData = {
+            user: userId,
+            name: req.body.name,
+            type: req.body.type,
+            exercises: req.body.exercises,
+            duration: req.body.duration,
+            location: req.body.location,
+            notes: req.body.notes,
+            mood: req.body.mood,
+            energyLevel: req.body.energyLevel,
+            bodyweight: req.body.bodyweight
+        };
 
-//     if (!user) {
-//         return res.status(401).json({ message: "You must be logged in" });
-//     }
+        const workout = new Workout(workoutData);
+        await workout.validate();
+        const savedWorkout = await workout.save();
+        res.status(201).json(savedWorkout);
 
-//     if (!exercises || exercises.length === 0) {
-//         return res.status(400).json({ message: "You must provide at least one exercise" });
-//     }
-//     try {
-//         const workout = new Workouts({
-//             user: user._id,
-//             exercises,
-//         });
-
-//         const savedWorkout = await workout.save();
-//         return res.status(201).json({
-//             message: "Workout logged successfully",
-//             workout: savedWorkout,
-//         });
-//     } catch (err) {
-//         console.error('Error:', err);
-//         return res.status(500).json({ error: "Failed to log workout" });
-//     }
-// });
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).json({ error: 'Failed to add exercise to favorites' });
+    }
+});
 module.exports = exerciseRouter;

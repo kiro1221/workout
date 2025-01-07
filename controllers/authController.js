@@ -126,12 +126,10 @@ router.post('/forgot-password', async (req, res) => {
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
         const email = decoded.email;
-        // const email = 'kiroragai2@gmail.com'; //TODO:WITH FRONT END, GET ACTUAL EMAIL
         const user = await User.findOne({ email });
         if (!user) {
             return res.status(404).json({ message: "User not found" });
         }
-        // changePasswordRequest(user.email, user.username);
         user.password = newPassword;
         await user.save();
         res.status(200).json({ message: "Password updated successfully" });
