@@ -58,6 +58,8 @@
     }
     const openPopup = (element) => {
         setStarState(element)
+        console.log(element)
+        addRecentlyViewed(element)
         const popUp = document.getElementById('popUp');
         const container = document.getElementById('container');
 

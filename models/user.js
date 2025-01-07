@@ -9,6 +9,14 @@ const exerciseSchema = new mongoose.Schema({
     difficulty: String,
     instructions: String
 });
+const RecentlyViewedSchema = new mongoose.Schema({
+    name: String,
+    type: String,
+    muscle: String,
+    equipment: String,
+    difficulty: String,
+    instructions: String
+});
 const userSchema = new mongoose.Schema({
     username: {
         type: String,
@@ -54,6 +62,7 @@ const userSchema = new mongoose.Schema({
         type: Number,
     },
     favorites: [exerciseSchema],
+    recentlyView: [RecentlyViewedSchema],
     createdAt: {
         type: Date,
         default: Date.now

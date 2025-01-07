@@ -28,9 +28,14 @@
                 <li><a href="#">Stats</a></li>
                 <li class="<%= activePage === 'workouts' ? 'active' : '' %>"><a href="/render/">Workouts</a></li> <!---Information-->
                 <li class="<%= activePage === 'Log-Workout' ? 'active' : '' %>"><a href="/render/Log-Workout">Log workout</a></li>
-                <li><a href="/profile">Profile</a></li>
-                <li><a href="/render/changePassword">Change Password</a></li>
-                <li><button id="logoutLink" onclick="logout()">Logout</button></li>
+                <li class="settings">
+                    <a href="#">Settings</a>
+                    <ul class="dropdown">
+                        <li><a href="/profile">Profile</a></li>
+                        <li><a href="/render/changePassword">Change Password</a></li>
+                        <li><button id="logoutLink" onclick="logout()">Logout</button></li>
+                    </ul>
+                </li>
             </ul> 
         </template>
     </div>

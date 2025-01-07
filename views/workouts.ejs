@@ -10,7 +10,6 @@
 </head>
 <body>
     <%- include('partials/menu'); -%>
-    <%- include('partials/search'); -%>
     <div class="container" id="container">
         <div class="content">
             <h1>Look for exercises</h1>
@@ -25,6 +24,10 @@
                 </select>
             </div>
         </div>
+        <main class="searchContainer">
+            <input type="text" name="query" id="searchWorkout" placeholder="Search for workouts...">
+            <button type="submit" id="submitBtn"><i class="fa-solid fa-magnifying-glass"></i></button>
+    </main>
         <div class="miniMenu">
             <!-- TODO:SHOW FAV EXERCISES(FUNCTION IS MADE IN PARTIALS) -->
             <button class="btn" id="all">All Exercises</button>
@@ -38,7 +41,8 @@
     <%- include('partials/all'); -%>
     <%- include('partials/results'); -%>
     <%- include('partials/favorite'); -%>
-    
+    <%- include('partials/recentlyViewed'); -%>
+
     <script>
         const container = document.getElementById('container');            
         const result = document.getElementById('resultApi');
@@ -69,48 +73,59 @@
             typeSelect.appendChild(option);
         });
 
+        const searchWorkout = document.getElementById('searchWorkout');
+        const submitBtn = document.getElementById('submitBtn');
+        submitBtn.addEventListener('click',  (e) => {
+            console.log(searchWorkout.value)
+            getWorkouts('','',searchWorkout.value)
+        })
         muscleSelect.addEventListener('change', () => {
-            getWorkouts(muscleSelect.value, typeSelect.value);
+            getWorkouts(muscleSelect.value, typeSelect.value, '');
         });
 
         typeSelect.addEventListener('change', () => {
-            getWorkouts(muscleSelect.value, typeSelect.value);
+            getWorkouts(muscleSelect.value, typeSelect.value, '');
         });
         document.getElementById('all').addEventListener('click', () => {
             header.textContent = 'Showing All Workouts:';
             getAllWorkouts();
             document.getElementById('all').classList.add('active');
             document.getElementById('favorite').classList.remove('active');
+            document.getElementById('recentlyView').classList.remove('active');
         });
         document.getElementById('favorite').addEventListener('click', () => {
             header.textContent = 'Showing Your Favorite Workouts:';
             getFavWorkouts();
             document.getElementById('favorite').classList.add('active');
             document.getElementById('all').classList.remove('active');
+            document.getElementById('recentlyView').classList.remove('active');
         });
         document.getElementById('recentlyView').addEventListener('click', () => {
             header.textContent = 'Showing Your Recently Viewed Workouts:';
             // TODO:IMPLEMENT RECENTLY VIEWED WORKOUTS
-            // getFavWorkouts();
-            document.getElementById('favorite').classList.add('active');
+            recentlyViewed();
+            document.getElementById('recentlyView').classList.add('active');
+            document.getElementById('favorite').classList.remove('active');
             document.getElementById('all').classList.remove('active');
         });
-        const getWorkouts = (muscle, type) => {
-            fetch(`/exercises/exercises?muscle=${muscle}&type=${type}`)
-                .then(response => response.json())
-                .then(data => {
-                    if(muscle === '' && type === '') {
-                        header.textContent = 'Showing Favorite Workouts:';
-                    } else if(muscle === '') {
-                        header.textContent = `Showing ${type} exercises:`;
-                    } else if(type === '') {
-                        header.textContent = `Showing ${muscle} exercises:`;
-                    } else {
-                        header.textContent = `Showing ${type} ${muscle} exercises:`;
-                    }
-                    createResult(data);
-                })
-                .catch(error => console.error('Error fetching workouts:', error));
+        const getWorkouts = (muscle, type, name) => {
+            fetch(`/exercises/exercises?muscle=${muscle}&type=${type}&name=${name}`)
+            .then(response => response.json())
+            .then(data => {
+                if (name) {
+                header.textContent = `Showing results for ${name}:`;
+                } else if (muscle === '' && type === '') {
+                header.textContent = 'Showing Favorite Workouts:';
+                } else if (muscle === '') {
+                header.textContent = `Showing ${type} exercises:`;
+                } else if (type === '') {
+                header.textContent = `Showing ${muscle} exercises:`;
+                } else {
+                header.textContent = `Showing ${type} ${muscle} exercises:`;
+                }
+                createResult(data);
+            })
+            .catch(error => console.error('Error fetching workouts:', error));
         };
 
         document.addEventListener('DOMContentLoaded', () => {
